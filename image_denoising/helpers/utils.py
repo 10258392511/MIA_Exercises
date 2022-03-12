@@ -36,3 +36,14 @@ def normalize_img(img: np.ndarray, eps=2) -> np.ndarray:
         img_out[..., slice_num] = np.clip((img_slice - min_val) / (max_val - min_val), 0, 1)
 
     return img_out
+
+
+def rmse(X, X_ref):
+    return np.sqrt(1 / X.size * ((X - X_ref) ** 2).sum())
+
+
+def save_nii_image(img_array, filename, transform=None):
+    if transform is None:
+        transform = np.eye(4)
+    img = nib.Nifti1Image(img_array, transform)
+    nib.save(img, filename)
